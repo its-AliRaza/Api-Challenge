@@ -32,12 +32,12 @@ namespace ApiChallenge.Controllers
                 else if (!ModelState.IsValid)
                     return Content(HttpStatusCode.BadRequest, new Response<string>("400", "This feild is mandatory", null, ModelState));
                 var profile = JwtManager.GetProfile(Request.Headers.Authorization.Parameter);
-                string query = "SELECT * FROM Developer where D_CreatedBy= @emial and D_CreatedAt >= @FromDate and D_CreatedAt <= @ToDate ORDER BY D_ID DESC OFFSET " + (developerRequest.Page - 1) * 5 + " ROWS FETCH NEXT 5 ROW ONLY";
+                string query = "SELECT * FROM Developer where U_ID = @uid and D_CreatedAt >= @FromDate and D_CreatedAt <= @ToDate ORDER BY D_ID DESC OFFSET " + (developerRequest.Page - 1) * 5 + " ROWS FETCH NEXT 5 ROW ONLY";
                 SqlConnection conn = new SqlConnection(Utils.connStr);
                 conn.Open();
 
                 SqlCommand command = new SqlCommand(query, conn);
-                command.Parameters.AddWithValue("@email", profile.U_Email);
+                command.Parameters.AddWithValue("@uid", profile.U_ID);
                 command.Parameters.AddWithValue("@FromDate", developerRequest.From);
                 command.Parameters.AddWithValue("@ToDate", developerRequest.To);
                 TotalDeveloper result = new TotalDeveloper();
@@ -48,7 +48,7 @@ namespace ApiChallenge.Controllers
                         Developer item = new Developer()
                         {
                             D_ID = (int)reader["D_ID"],
-                            D_Email = reader["D_Email"].ToString(),
+                            U_ID = reader["U_ID"].ToString(),
                             D_Name = reader["D_Name"].ToString(),
                             D_Age = reader["D_Age"].ToString(),
                             D_CreatedBy = reader["D_CreatedBy"].ToString(),
