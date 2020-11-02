@@ -1,21 +1,20 @@
 ﻿using ApiChallenge.Helpers;
 using ApiChallenge.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
-using System.Web.UI.WebControls;
-
 namespace ApiChallenge.Controllers
 {
     public class AccountController : ApiController
     {
-        // GET: Account
-        // Post api/Account/Login
+
         [HttpPost]
         [ResponseType(typeof(User))]
         [AllowAnonymous]
@@ -73,7 +72,7 @@ namespace ApiChallenge.Controllers
             return Content(HttpStatusCode.InternalServerError, new Response<string>("500", "Something went wrong.Please try again later."));
         }
 
-        // Post api/Account/Signup
+
         [HttpPost]
         [ResponseType(typeof(string))]
         [AllowAnonymous]
@@ -99,7 +98,10 @@ namespace ApiChallenge.Controllers
                 }
                 else
                 {
-                    userRequest.U_Email = BCrypt.Net.BCrypt.HashPassword(userRequest.U_Password);
+                    userRequest.U_Password = BCrypt.Net.BCrypt.HashPassword(userRequest.U_Password);
+
+                    conn.Close();
+                    conn.Open();
                     using (conn)
                     {
                         string insertQuerry = "INSERT INTO AppUser(U_Name,U_Email,U_Password) VALUES(@name,@email,@password)";
@@ -115,7 +117,9 @@ namespace ApiChallenge.Controllers
                     return Content(HttpStatusCode.OK, new Response<string>("200", "Signup created successfully."));
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+            }
             return Content(HttpStatusCode.InternalServerError, new Response<string>("500", "Something went wrong.Please try again later.")); ;
 
         }

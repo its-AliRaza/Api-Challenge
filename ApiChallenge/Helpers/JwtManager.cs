@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Web;
 
 namespace ApiChallenge.Helpers
@@ -16,10 +17,11 @@ namespace ApiChallenge.Helpers
         ///     var hmac = new HMACSHA256();
         ///     var key = Convert.ToBase64String(hmac.Key);
         /// </summary>
-        private const string Secret = "";
+        private const string Secret = "bzWGnxyrTkf0F+DFuCb5xCBQWJtFRa2AAAcns8rBsUwHqOE/Sj0wp2sIDGvJpRrgNL/pAzBuhI2fnIuQbT4VPA==";
 
         public static string GenerateToken(User data, int expireMinutes = 1000)
         {
+
             var symmetricKey = Convert.FromBase64String(Secret);
             var tokenHandler = new JwtSecurityTokenHandler();
 
