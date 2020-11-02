@@ -20,16 +20,16 @@ namespace ApiChallenge.Models
         [Display(Name = "Developer Email")]
         public string D_Email { get; set; }
 
-        [Required(ErrorMessage = "User Email is required.")]
-        [Display(Name = "User Email")]
-        public string U_Email { get; set; }
-
         [Required(ErrorMessage = "Age is required.")]
         [Display(Name = "Age")]
         public string D_Age { get; set; }
 
+        [Required(ErrorMessage = "Created At is required.")]
+        [Display(Name = "Date")]
         public string D_CreatedAt { get; set; }
 
+        [Required(ErrorMessage = "Created By is required.")]
+        [Display(Name = "User Email")]
         public string D_CreatedBy { get; set; }
     }
 

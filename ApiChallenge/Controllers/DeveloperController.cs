@@ -93,7 +93,7 @@ namespace ApiChallenge.Controllers
                 conn.Open();
                 using (conn)
                 {
-                    string insertQuerry = "INSERT INTO Developer(D_Name,D_Email,D_Age,D_CreatedBy,D_CreatedAt,U_ID) VALUES(@dname,@demail,@dage,@dCreatedBy,@dCreatedAt,@uID)";
+                    string insertQuerry = "INSERT INTO Developer(D_Name,D_Email,D_CreatedBy,D_CreatedAt,D_Age,U_ID) VALUES(@dname,@demail,@dCreatedBy,@dCreatedAt,@dage,@uID)";
                     using (SqlCommand insertCommand = new SqlCommand(insertQuerry, conn))
                     {
                         insertCommand.Parameters.AddWithValue("@dname", developer.D_Name);
